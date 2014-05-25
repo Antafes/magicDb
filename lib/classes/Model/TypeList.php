@@ -12,9 +12,13 @@ class TypeList
 
 	public function loadTypes()
 	{
+		$translator = \Translator::getInstance();
 		$sql = '
-			SELECT `typeId`
-			FROM types
+			SELECT t.`typeId`
+			FROM types AS t
+			JOIN translations AS tr ON (tr.`key` = t.`name`)
+			WHERE tr.`languageId` = '.sqlval($translator->getCurrentLanguage()).'
+			ORDER BY tr.`value`
 		';
 		$data = query($sql, true);
 
