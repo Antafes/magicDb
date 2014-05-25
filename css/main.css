@@ -1,3 +1,9 @@
+a
+{
+	color: #000000;
+	text-decoration: none;
+}
+
 .collapse thead
 {
 	border-bottom: 1px solid #878787;
@@ -5,7 +11,7 @@
 
 .collapse th
 {
-	vertical-align: text-top;
+	vertical-align: bottom;
 }
 
 .collapse .name,
@@ -24,6 +30,28 @@
 	width: 100px;
 }
 
+#index .search
+{
+	margin-bottom: 20px;
+}
+
+#index .search table td
+{
+	vertical-align: top;
+	padding: 5px;
+}
+
+#index .search table td select,
+#index .search table td input:not([type="submit"])
+{
+	width: 200px;
+}
+
+#index .sort
+{
+
+}
+
 #addCard input:not([type="submit"]),
 #addCard select
 {
@@ -37,9 +65,7 @@
 
 #addCard .selectors #createType
 {
-	text-decoration: none;
 	font-weight: bold;
-	color: #000000;
 }
 
 #addCard .selectors #createType img

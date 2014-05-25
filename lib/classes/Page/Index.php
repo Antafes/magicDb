@@ -15,13 +15,51 @@ class Index extends \Page
 
 	public function process()
 	{
-		$this->loadCards();
+		$filter  = array();
+		$sorting = array();
+
+		if ($_GET['search'])
+		{
+			if ($_GET['card'])
+			{
+				$filter['card'] = $_GET['card'];
+			}
+
+			if ($_GET['types'])
+			{
+				$filter['types'] = $_GET['types'];
+			}
+
+			if ($_GET['colors'])
+			{
+				$filter['colors'] = $_GET['colors'];
+			}
+
+			if ($_GET['rarity'])
+			{
+				$filter['rarity'] = $_GET['rarity'];
+			}
+		}
+
+		if ($_GET['sort'])
+		{
+			$sorting['sort']  = $_GET['sort'];
+			$sorting['order'] = $_GET['order'];
+		}
+
+		$this->loadCards($filter, $sorting);
 	}
 
-	protected function loadCards()
+	protected function loadCards(array $filter, array $sorting)
 	{
 		$cardList = new \Model\CardList();
-		$cardList->loadCards();
+		$cardList->loadCards($filter, $sorting);
 		$this->template->assign('cardList', $cardList);
+		$typeList = new \Model\TypeList();
+		$typeList->loadTypes();
+		$this->template->assign('typeList', $typeList);
+		$colorList = new \Model\ColorList();
+		$colorList->loadColors();
+		$this->template->assign('colorList', $colorList);
 	}
 }

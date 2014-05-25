@@ -30,18 +30,22 @@ class TypeList
 		}
 	}
 
-	public function getTypeList()
+	public function getTypeList($withSubTypes = false)
 	{
 		$types = array();
 
 		foreach ($this->typeList as $type)
 		{
-			if (!$type->getParent())
+			if (!$type->getParent() && $withSubTypes)
 			{
 				$types[] = array(
 					'main' => $type,
 					'sub'  => $this->getSubTypes($type->getTypeId()),
 				);
+			}
+			else
+			{
+				$types[] = $type;
 			}
 		}
 
