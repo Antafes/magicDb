@@ -24,6 +24,23 @@
 	width: 100px;
 }
 
+#index .search
+{
+	margin-bottom: 20px;
+}
+
+#index .search table td
+{
+	vertical-align: top;
+	padding: 5px;
+}
+
+#index .search table td select,
+#index .search table td input:not([type="submit"])
+{
+	width: 200px;
+}
+
 #addCard input:not([type="submit"]),
 #addCard select
 {
