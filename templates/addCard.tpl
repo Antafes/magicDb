@@ -22,7 +22,7 @@
 				<tr>
 					<td>{$translator->getTranslation('cardNameDe')}</td>
 					<td>
-						<input type="text" name="cardNameDe" />
+						<input type="text" name="cardNameDe" autofocus="true" />
 					</td>
 				</tr>
 				<tr>
