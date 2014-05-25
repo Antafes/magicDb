@@ -15,7 +15,8 @@ class Index extends \Page
 
 	public function process()
 	{
-		$filter = array();
+		$filter  = array();
+		$sorting = array();
 
 		if ($_GET['search'])
 		{
@@ -40,13 +41,19 @@ class Index extends \Page
 			}
 		}
 
-		$this->loadCards($filter);
+		if ($_GET['sort'])
+		{
+			$sorting['sort']  = $_GET['sort'];
+			$sorting['order'] = $_GET['order'];
+		}
+
+		$this->loadCards($filter, $sorting);
 	}
 
-	protected function loadCards(array $filter)
+	protected function loadCards(array $filter, array $sorting)
 	{
 		$cardList = new \Model\CardList();
-		$cardList->loadCards($filter);
+		$cardList->loadCards($filter, $sorting);
 		$this->template->assign('cardList', $cardList);
 		$typeList = new \Model\TypeList();
 		$typeList->loadTypes();
