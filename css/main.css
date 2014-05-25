@@ -37,16 +37,14 @@
 
 #addCard .selectors #createType
 {
-	position: absolute;
-	top: 4px;
-	right: 10px;
 	text-decoration: none;
 	font-weight: bold;
+	color: #000000;
 }
 
-#addCard .selectors .typeSelectors select
+#addCard .selectors #createType img
 {
-	width: 170px;
+	margin-right: 5px;
 }
 
 #addCard .typeList
