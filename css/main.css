@@ -4,28 +4,50 @@ a
 	text-decoration: none;
 }
 
-.collapse thead
+.table > .head
 {
+	font-weight: bold;
 	border-bottom: 1px solid #878787;
 }
 
-.collapse th
+.table > .head > .row > div,
+.table > .body > .row > div
 {
-	vertical-align: bottom;
+	height: 16px;
+	padding: 4px;
 }
 
-.collapse .name,
-.collapse .type
+.table > .head > .row > div
+{
+	text-align: center;
+}
+
+.table .index
+{
+	width: 50px;
+}
+
+.table .nameDe.nameEn
+{
+	width: 400px;
+}
+
+.table .nameDe,
+.table .nameEn,
+.table .type,
+.table .amount.foiled
 {
 	width: 200px;
 }
 
-.collapse .rarity
+.table .color
 {
-	width: 100px;
+	width: 70px;
 }
 
-.collapse .amount
+.table .rarity,
+.table .amount,
+.table .foiled
 {
 	width: 100px;
 }
@@ -58,52 +80,6 @@ a
 	width: 200px;
 }
 
-#addCard .selectors
-{
-	position: relative;
-}
-
-#addCard .selectors #createType
-{
-	font-weight: bold;
-}
-
-#addCard .selectors #createType img
-{
-	margin-right: 5px;
-}
-
-#addCard .typeList
-{
-	padding: 5px 0;
-}
-
-#addCard .typeList ul
-{
-	margin: -5px 0;
-}
-
-#addCard .typeList ul li
-{
-	position: relative;
-	background-color: #ffffff;
-	border: 1px solid #878787;
-	margin: 5px 0;
-	padding: 5px;
-	border-radius: 5px;
-	cursor: all-scroll;
-}
-
-#addCard .typeList ul li .removeItem
-{
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #de1717;
-}
-
 #addCard table .headings
 {
 	width: 150px;
@@ -117,4 +93,50 @@ a
 #addCard table td
 {
 	vertical-align: top;
+}
+
+.selectors
+{
+	position: relative;
+}
+
+.selectors #createType
+{
+	font-weight: bold;
+}
+
+.selectors #createType img
+{
+	margin-right: 5px;
+}
+
+.typeList
+{
+	padding: 5px 0;
+}
+
+.typeList ul
+{
+	margin: -5px 0;
+}
+
+.typeList ul li
+{
+	position: relative;
+	background-color: #ffffff;
+	border: 1px solid #878787;
+	margin: 5px 0;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: all-scroll;
+}
+
+.typeList ul li .removeItem
+{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #de1717;
 }

@@ -8,15 +8,56 @@ namespace Model;
  */
 class Card
 {
+	/**
+	 * @var integer
+	 */
 	protected $cardId;
+
+	/**
+	 * @var string
+	 */
 	protected $nameDe;
+
+	/**
+	 * @var string
+	 */
 	protected $nameEn;
+
+	/**
+	 * @var string
+	 */
 	protected $rarity;
+
+	/**
+	 * @var integer
+	 */
 	protected $amount;
+
+	/**
+	 * @var integer
+	 */
 	protected $foiled;
+
+	/**
+	 * @var array
+	 */
 	protected $types;
+
+	/**
+	 * @var array
+	 */
 	protected $colors;
 
+	/**
+	 *
+	 * @param string  $nameDe
+	 * @param string  $nameEn
+	 * @param string  $rarity
+	 * @param integer $amount
+	 * @param integer $foiled
+	 * @param array   $types
+	 * @param array   $colors
+	 */
 	public static function create($nameDe, $nameEn, $rarity, $amount, $foiled, $types, $colors)
 	{
 		$sql = '
@@ -52,6 +93,9 @@ class Card
 		query(substr($sql, 0, -2));
 	}
 
+	/**
+	 * @param integer $cardId
+	 */
 	public function loadByCardId($cardId)
 	{
 		$sql = '
@@ -115,36 +159,57 @@ class Card
 		}
 	}
 
+	/**
+	 * @return integer
+	 */
 	public function getCardId()
 	{
 		return $this->cardId;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getNameDe()
 	{
 		return $this->nameDe;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getNameEn()
 	{
 		return $this->nameEn;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getRarity()
 	{
 		return $this->rarity;
 	}
 
+	/**
+	 * @return integer
+	 */
 	public function getAmount()
 	{
 		return $this->amount;
 	}
 
+	/**
+	 * @return integer
+	 */
 	public function getFoiled()
 	{
 		return $this->foiled;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getType()
 	{
 		if (!$this->types)
@@ -201,6 +266,32 @@ class Card
 		return $subTypes;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getTypeJson()
+	{
+		if (!$this->types)
+		{
+			return json_encode(array());
+		}
+
+		$types = array();
+		$types['mainType'] = $this->getMainType()->getTypeId();
+		$types['subTypes'] = array();
+
+		/** @var Type $subType */
+		foreach ($this->getSubTypes() as $subType)
+		{
+			$types['subTypes'][] = $subType->getTypeId();
+		}
+
+		return json_encode($types);
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getColor()
 	{
 		$translator = \Translator::getInstance();
@@ -212,5 +303,91 @@ class Card
 		}
 
 		return substr($colors, 0, -2);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getColorIds()
+	{
+		$colorIds = '';
+
+		/** @var Color $color */
+		foreach ($this->colors as $color)
+		{
+			$colorIds .= $color->getColorId().'-';
+		}
+
+		return substr($colorIds, 0, -1);
+	}
+
+	public function update($nameDe, $nameEn, $types, $colors, $rarity, $amount, $foiled)
+	{
+		$sql = '
+			UPDATE cards
+			SET `nameDe` = '.sqlval($nameDe).',
+				`nameEn` = '.sqlval($nameEn).',
+				rarity = '.sqlval($rarity).',
+				amount = '.sqlval($amount).',
+				foiled = '.sqlval($foiled).'
+			WHERE `cardId` = '.sqlval($this->cardId).'
+		';
+		query($sql);
+		$this->nameDe = $nameDe;
+		$this->nameEn = $nameEn;
+		$this->rarity = $rarity;
+		$this->amount = $amount;
+		$this->foiled = $foiled;
+		$this->updateColors($colors);
+		$this->updateTypes($types);
+	}
+
+	/**
+	 * @param array $colors
+	 */
+	protected function updateColors($colors)
+	{
+		$sql = '
+			DELETE FROM color_to_card
+			WHERE `cardId` = '.sqlval($this->cardId).'
+		';
+		query($sql);
+
+		$sql = '
+			INSERT INTO color_to_card (`cardId`, `colorId`)
+			VALUES';
+
+		foreach ($colors as $color)
+		{
+			$sql .= ' ('.sqlval($this->cardId).', '.sqlval($color).')';
+		}
+
+		query($sql);
+		unset($this->colors);
+		$this->loadColors();
+	}
+
+	protected function updateTypes($types)
+	{
+		$sql = '
+			DELETE FROM type_to_card
+			WHERE `cardId` = '.sqlval($this->cardId).'
+		';
+		query($sql);
+
+		$sql = '
+			INSERT INTO type_to_card (`cardId`, `typeId`, sorting)
+			VALUES ';
+
+		foreach ($types as $type)
+		{
+			$sql .= '('.sqlval($this->cardId).', '.sqlval($type['id']).', '.sqlval($type['sorting'])
+				.'), ';
+		}
+
+		$sql = substr($sql, 0, -2);
+		query($sql);
+		unset($this->types);
+		$this->loadTypes();
 	}
 }

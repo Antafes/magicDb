@@ -48,6 +48,9 @@ class Index extends \Page
 		}
 
 		$this->loadCards($filter, $sorting);
+		$this->template->loadJs('jquery.editRow');
+		$this->template->loadJs('jquery.sortableTypes');
+		$this->template->loadJs('index');
 	}
 
 	protected function loadCards(array $filter, array $sorting)

@@ -10,6 +10,11 @@ body
 	clear: both !important;
 }
 
+.hidden
+{
+	display: none;
+}
+
 a.button
 {
 	text-decoration: none;
@@ -32,6 +37,26 @@ a.button
 	float: right;
 }
 
+.table > .head > .row:after,
+.table > .body > .row:after
+{
+	content: ' ';
+}
+
+.table > .head > .row,
+.table > .body > .row,
+.table > .head > .row:after,
+.table > .body > .row:after
+{
+	display: table;
+	clear: both;
+}
+
+.table .row > div
+{
+	float: left;
+}
+
 table.collapse
 {
 	border-collapse: collapse;
@@ -50,6 +75,7 @@ table.collapse th:last-child
 	border-right: 0 none;
 }
 
+.table .row.odd,
 tr.odd
 {
 	background-color: #dedede;
