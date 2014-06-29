@@ -377,14 +377,15 @@ class Card
 
 		$sql = '
 			INSERT INTO type_to_card (`cardId`, `typeId`, sorting)
-			VALUES';
+			VALUES ';
 
 		foreach ($types as $type)
 		{
 			$sql .= '('.sqlval($this->cardId).', '.sqlval($type['id']).', '.sqlval($type['sorting'])
-				.')';
+				.'), ';
 		}
 
+		$sql = substr($sql, 0, -2);
 		query($sql);
 		unset($this->types);
 		$this->loadTypes();

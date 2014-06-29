@@ -1,18 +1,22 @@
 <?php
+require_once(__DIR__.'/../lib/config.default.php');
+require_once(__DIR__.'/../lib/util/mysql.php');
+
 $translator = Translator::getInstance();
 
-if (!$_GET['id'] || !$_GET['nameDe'] || !$_GET['nameEn'] || !$_GET['type'] || !$_GET['rarity']
-	|| !$_GET['color'] || !isset($_GET['amount']) || !is_numeric($_GET['amount'])
-	|| !isset($_GET['foiled']) || !is_numeric($_GET['foiled']))
+if (!$_GET['id'] || !$_GET['nameDe']['value'] || !$_GET['nameEn']['value'] || !$_GET['type']['value']
+	|| !$_GET['rarity']['value'] || !$_GET['color']['value'] || !isset($_GET['amount']['value'])
+	|| !is_numeric($_GET['amount']['value']) || !isset($_GET['foiled']['value'])
+	|| !is_numeric($_GET['foiled']['value']))
 {
 	die();
 }
 
 $preparedTypes = array();
-foreach (explode('-', $types) as $key => $type)
+foreach (explode('-', $_GET['type']['value']) as $key => $type)
 {
 	$preparedTypes[] = array(
-		'id'      => $_GET['type'],
+		'id'      => $type,
 		'sorting' => $key,
 	);
 }
@@ -20,7 +24,7 @@ foreach (explode('-', $types) as $key => $type)
 $card = new \Model\Card();
 $card->loadByCardId($_GET['id']);
 $card->update(
-	$_GET['nameDe'], $_GET['nameEn'], $_GET['type'], $_GET['color'], $_GET['rarity'],
-	$_GET['amount'], $_GET['foiled']
+	$_GET['nameDe']['value'], $_GET['nameEn']['value'], $preparedTypes, $_GET['color']['value'],
+	$_GET['rarity']['value'], $_GET['amount']['value'], $_GET['foiled']['value']
 );
 echo json_encode(array('ok' => true));
